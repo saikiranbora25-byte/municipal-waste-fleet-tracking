@@ -1,0 +1,11 @@
+{
+  "name": "municipal-waste-fleet-tracking",
+  "version": "1.0.0",
+  "description": "GPS-Based Fleet Tracking & Route Verification System for Municipal Waste Collection",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Saikiran Bora (A24126510006)",
+  "license": "ISC"
+}

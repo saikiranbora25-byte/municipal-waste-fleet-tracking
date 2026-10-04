@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicClean: GPS Fleet Tracking & Route Verification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-logo">
+        <i class="fa-solid fa-truck-droplet"></i>
+      </div>
+      <div>
+        <h1 class="brand-title">CivicClean GIS</h1>
+        <p class="brand-subtitle">Municipal Solid Waste Fleet Tracking & Route Verification (Solution 2 - Software Only)</p>
+      </div>
+    </div>
+
+    <!-- Role Switcher Navigation -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" id="tab-supervisor" onclick="switchTab('supervisor')">
+        <i class="fa-solid fa-tower-broadcast"></i>
+        <span>Supervisor Dashboard</span>
+      </button>
+      <button class="tab-btn" id="tab-driver" onclick="switchTab('driver')">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        <span>Driver Field App</span>
+      </button>
+      <button class="tab-btn" id="tab-citizen" onclick="switchTab('citizen')">
+        <i class="fa-solid fa-users"></i>
+        <span>Citizen Portal</span>
+      </button>
+    </nav>
+
+    <div class="header-meta">
+      <div class="system-badge">
+        <span class="pulse-indicator"></span>
+        <span id="system-status">LIVE FEED</span>
+      </div>
+      <div class="clock-box" id="live-clock">--:--:--</div>
+    </div>
+  </header>
+
+  <!-- Notification Banner -->
+  <div id="notification-toast" class="toast hidden"></div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-container">
+
+    <!-- VIEW 1: SUPERVISOR COMMAND DASHBOARD -->
+    <section id="view-supervisor" class="view-pane active">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon blue"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpi-total-stops">6</div>
+            <div class="kpi-label">Total Ward Checkpoints</div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon green"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value"><span id="kpi-collected">2</span> <small id="kpi-rate">(33%)</small></div>
+            <div class="kpi-label">Verified Pickups</div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpi-skipped">1</div>
+            <div class="kpi-label">Skipped / Blocked Stops</div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon teal"><i class="fa-solid fa-truck-front"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpi-trucks">1 Active</div>
+            <div class="kpi-label">Fleet in Operation</div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon orange"><i class="fa-solid fa-bullhorn"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpi-complaints">2 Open</div>
+            <div class="kpi-label">Citizen Hotspots</div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon purple"><i class="fa-solid fa-weight-hanging"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpi-waste">800 kg</div>
+            <div class="kpi-label">Waste Collected Today</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-split">
+        <div class="map-container-box card">
+          <div class="card-header flex-between">
+            <div class="flex-align-gap">
+              <i class="fa-solid fa-map-location-dot text-primary"></i>
+              <h3>Real-Time Fleet GIS Tracking Map</h3>
+              <span class="badge-info">Visakhapatnam - Bheemili Ward Sector</span>
+            </div>
+            <div class="sim-controls">
+              <button class="btn btn-sm btn-primary" id="btn-sim-play" onclick="toggleSimulation()">
+                <i class="fa-solid fa-play" id="sim-icon"></i>
+                <span id="sim-text">Start GPS Sim</span>
+              </button>
+              <button class="btn btn-sm btn-secondary" onclick="stepSimulationNext()">
+                <i class="fa-solid fa-forward-step"></i> Next Stop
+              </button>
+              <button class="btn btn-sm btn-outline" onclick="resetSimulation()">
+                <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+              </button>
+            </div>
+          </div>
+
+          <div id="fleet-map" class="fleet-map-canvas"></div>
+
+          <div class="map-legend">
+            <div class="legend-item"><span class="legend-dot green"></span> Collected (Proof-of-Service Verified)</div>
+            <div class="legend-item"><span class="legend-dot orange"></span> Pending Checkpoint</div>
+            <div class="legend-item"><span class="legend-dot red"></span> Skipped / Blocked</div>
+            <div class="legend-item"><span class="legend-dot blue"></span> Active Vehicle (TRK-01)</div>
+            <div class="legend-item"><span class="legend-dot purple"></span> Citizen Hotspot Complaint</div>
+          </div>
+        </div>
+
+        <div class="side-telemetry-box card">
+          <div class="card-header">
+            <i class="fa-solid fa-satellite-dish text-primary"></i>
+            <h3>Live Vehicle Telemetry</h3>
+          </div>
+          <div class="card-body">
+            <div class="telemetry-status-card">
+              <div class="flex-between mb-2">
+                <strong>Truck AP39-TM-1001</strong>
+                <span class="badge-live">ACTIVE ROUTE</span>
+              </div>
+              <div class="telemetry-grid">
+                <div class="tele-item"><small>Driver</small><p>Ramesh Kumar</p></div>
+                <div class="tele-item"><small>Speed</small><p id="tele-speed">24 km/h</p></div>
+                <div class="tele-item"><small>GPS Lock</small><p class="text-success">&plusmn;4m (High)</p></div>
+                <div class="tele-item"><small>Fuel</small><p>78%</p></div>
+              </div>
+            </div>
+
+            <h4 class="feed-heading mt-3"><i class="fa-solid fa-camera-retro"></i> Proof-of-Service Stream</h4>
+            <div id="verification-stream" class="stream-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid-2 mt-4">
+        <div class="card">
+          <div class="card-header flex-between">
+            <div class="flex-align-gap">
+              <i class="fa-solid fa-shield-halved text-success"></i>
+              <h3>Proof-of-Service Audit Trail</h3>
+            </div>
+            <span class="badge-tag">Tamper-Resistant Timestamp Log</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Vehicle ID</th>
+                  <th>Checkpoint Location</th>
+                  <th>Action</th>
+                  <th>Verification Accuracy</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="audit-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header flex-between">
+            <div class="flex-align-gap">
+              <i class="fa-solid fa-circle-exclamation text-warning"></i>
+              <h3>Citizen Hotspot Reports</h3>
+            </div>
+            <span class="badge-tag">Direct Crowdsourced Feed</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ticket</th>
+                  <th>Citizen / Ward</th>
+                  <th>Issue Category</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="complaints-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: DRIVER MOBILE FIELD APP -->
+    <section id="view-driver" class="view-pane">
+      <div class="mobile-shell-container">
+        <div class="mobile-frame">
+          <div class="mobile-statusbar">
+            <span>09:41 AM</span>
+            <div class="phone-icons">
+              <i class="fa-solid fa-signal"></i>
+              <i class="fa-solid fa-wifi"></i>
+              <i class="fa-solid fa-battery-full"></i>
+            </div>
+          </div>
+
+          <div class="driver-app-content">
+            <div class="driver-banner">
+              <div class="driver-avatar">
+                <i class="fa-solid fa-id-card-clip"></i>
+              </div>
+              <div>
+                <h3>Ramesh Kumar</h3>
+                <p>Vehicle: <strong>AP39-TM-1001</strong> (4-Ton Compactor)</p>
+                <small>Assigned: Route North-01 (Sangivalasa - Bheemili)</small>
+              </div>
+            </div>
+
+            <div class="driver-gps-bar">
+              <div class="flex-align-gap">
+                <span class="pulse-indicator green"></span>
+                <span class="gps-txt">Smartphone GPS Active &amp; Geofencing Enabled</span>
+              </div>
+              <span class="badge-pill">&plusmn;4m Accuracy</span>
+            </div>
+
+            <div class="driver-progress-box">
+              <div class="flex-between mb-1">
+                <span>Route Completion</span>
+                <strong id="driver-progress-text">2 / 6 Stops (33%)</strong>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="driver-progress-bar" style="width: 33%;"></div>
+              </div>
+            </div>
+
+            <h4 class="manifest-title"><i class="fa-solid fa-clipboard-list"></i> Today's Assigned Checkpoints</h4>
+            <div id="driver-stops-list" class="manifest-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: CITIZEN REPORTING PORTAL -->
+    <section id="view-citizen" class="view-pane">
+      <div class="citizen-portal-container">
+        <div class="citizen-hero">
+          <h2>Visakhapatnam Municipal Corporation Clean City Portal</h2>
+          <p>Help keep your neighborhood clean. Report overflowing bins, missed collections, or illegal dumping directly from your smartphone or PC without any hardware sensors.</p>
+        </div>
+
+        <div class="citizen-grid">
+          <div class="card citizen-form-card">
+            <div class="card-header">
+              <i class="fa-solid fa-bullhorn text-primary"></i>
+              <h3>Report Waste Hotspot or Missed Pickup</h3>
+            </div>
+            <div class="card-body">
+              <form id="citizen-report-form" onsubmit="submitCitizenComplaint(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Your Full Name *</label>
+                    <input type="text" id="cit-name" required placeholder="e.g. Saikiran Bora" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="tel" id="cit-phone" required placeholder="+91 98480 XXXXX" class="form-control">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Municipal Ward *</label>
+                    <select id="cit-ward" class="form-control" required>
+                      <option value="Ward 1 - North (Sangivalasa)">Ward 1 - North (Sangivalasa)</option>
+                      <option value="Ward 2 - Coastal (Bheemili)">Ward 2 - Coastal (Bheemili)</option>
+                      <option value="Ward 3 - East (Tagarapuvalasa)">Ward 3 - East (Tagarapuvalasa)</option>
+                      <option value="Ward 4 - West (Anandapuram)">Ward 4 - West (Anandapuram)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Issue Category *</label>
+                    <select id="cit-category" class="form-control" required>
+                      <option value="Overflowing Public Bin">Overflowing Public Bin</option>
+                      <option value="Missed Scheduled Pickup">Missed Scheduled Pickup</option>
+                      <option value="Illegal Roadside Waste Dumping">Illegal Roadside Waste Dumping</option>
+                      <option value="Damaged / Missing Bin">Damaged / Missing Bin</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Specific Landmark / Location *</label>
+                  <div class="input-action-group">
+                    <input type="text" id="cit-location" required placeholder="e.g. Near Bus Shelter, Sangivalasa Cross" class="form-control">
+                    <button type="button" class="btn btn-secondary" onclick="useCurrentLocation()">
+                      <i class="fa-solid fa-crosshairs"></i> GPS Pin
+                    </button>
+                  </div>
+                  <small id="cit-coords-hint" class="text-muted">Coordinates: Lat 17.8962, Lng 83.4491</small>
+                </div>
+
+                <div class="form-group">
+                  <label>Issue Description</label>
+                  <textarea id="cit-desc" rows="3" class="form-control" placeholder="Provide details (e.g. Waste spilling onto road, foul odor)..."></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label>Photo Attachment (Camera / Upload)</label>
+                  <div class="file-drop-area" onclick="document.getElementById('cit-photo-file').click()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p id="cit-file-label">Tap to upload photo or take picture</p>
+                    <input type="file" id="cit-photo-file" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                  <i class="fa-solid fa-paper-plane"></i> Submit Waste Report
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="citizen-side-col">
+            <div class="card mb-4">
+              <div class="card-header">
+                <i class="fa-solid fa-magnifying-glass-location text-success"></i>
+                <h3>Track Your Grievance Status</h3>
+              </div>
+              <div class="card-body">
+                <div class="input-action-group mb-3">
+                  <input type="text" id="track-ticket-id" placeholder="Enter Ticket ID (e.g. CMP-2026-104)" class="form-control">
+                  <button type="button" class="btn btn-primary" onclick="trackComplaint()">Track</button>
+                </div>
+
+                <div id="track-result-box" class="track-card">
+                  <div class="flex-between">
+                    <strong id="track-ticket-num">CMP-2026-104</strong>
+                    <span class="badge-warning" id="track-ticket-status">OPEN / ASSIGNED</span>
+                  </div>
+                  <p id="track-ticket-desc" class="mt-2">Near Bheemili Lighthouse Old Fish Market</p>
+                  <div class="tracking-timeline mt-3">
+                    <div class="track-step completed">
+                      <span class="step-icon"><i class="fa-solid fa-check"></i></span>
+                      <div class="step-text"><strong>Submitted</strong><small>Today, 07:45 AM</small></div>
+                    </div>
+                    <div class="track-step active">
+                      <span class="step-icon"><i class="fa-solid fa-truck"></i></span>
+                      <div class="step-text"><strong>Truck Dispatched</strong><small>Assigned to Truck TRK-01</small></div>
+                    </div>
+                    <div class="track-step">
+                      <span class="step-icon"><i class="fa-solid fa-flag-checkered"></i></span>
+                      <div class="step-text"><strong>Clearance Verified</strong><small>Photo Proof Pending</small></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <i class="fa-solid fa-calendar-days text-primary"></i>
+                <h3>Daily Pickup Timings &amp; Vehicle Roster</h3>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Ward Name</th>
+                      <th>Scheduled Slot</th>
+                      <th>Vehicle</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Ward 1: Sangivalasa</td>
+                      <td>06:30 AM - 08:00 AM</td>
+                      <td>AP39-TM-1001</td>
+                      <td><span class="badge-success">Completed</span></td>
+                    </tr>
+                    <tr>
+                      <td>Ward 2: Bheemili Coastal</td>
+                      <td>08:00 AM - 09:30 AM</td>
+                      <td>AP39-TM-1001</td>
+                      <td><span class="badge-info">In Progress</span></td>
+                    </tr>
+                    <tr>
+                      <td>Ward 3: Tagarapuvalasa</td>
+                      <td>09:30 AM - 11:00 AM</td>
+                      <td>AP39-TM-1001</td>
+                      <td><span class="badge-warning">Pending</span></td>
+                    </tr>
+                    <tr>
+                      <td>Ward 4: Anandapuram</td>
+                      <td>11:00 AM - 12:30 PM</td>
+                      <td>AP39-TM-1002</td>
+                      <td><span class="badge-muted">Scheduled</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal for Skip Stop Reason -->
+  <div id="skip-modal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-triangle-exclamation text-danger"></i> Report Skipped Checkpoint</h3>
+        <button class="close-btn" onclick="closeSkipModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Please record the official justification for skipping <strong id="skip-stop-name">Stop</strong>:</p>
+        <div class="form-group mt-3">
+          <label>Reason Category *</label>
+          <select id="skip-reason-select" class="form-control">
+            <option value="Access road blocked due to excavation / road repairs">Access road blocked due to excavation / road repairs</option>
+            <option value="Bin in inaccessible narrow lane due to illegal parking">Bin in inaccessible narrow lane due to illegal parking</option>
+            <option value="Hazardous / biomedical waste detected in municipal bin">Hazardous / biomedical waste detected in municipal bin</option>
+            <option value="Bin already collected by secondary municipal tractor">Bin already collected by secondary municipal tractor</option>
+            <option value="Physical obstruction or water logging">Physical obstruction or water logging</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Driver Remarks / Observations</label>
+          <input type="text" id="skip-remarks" class="form-control" placeholder="e.g. Road blocked due to municipal trench excavation.">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeSkipModal()">Cancel</button>
+        <button class="btn btn-danger" onclick="confirmSkipStop()">Confirm Skip &amp; Log Issue</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
