@@ -19,7 +19,7 @@ import os
 # --- Page Configuration ---
 st.set_page_config(
     page_title="CivicClean GIS | Fleet Tracking",
-    page_icon="??",
+    page_icon="🚛",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -223,11 +223,11 @@ st.sidebar.caption("Municipal Solid Waste Fleet Tracking System (Solution 2 - Ze
 menu = st.sidebar.radio(
     "Navigation Portal",
     [
-        "?? Supervisor Command Hub",
-        "?? Driver Field Portal",
-        "?? Citizen Grievance Portal",
-        "?? Operational Analytics",
-        "?? Mini Project Report (.docx)"
+        "🏢 Supervisor Command Hub",
+        "🚛 Driver Field Portal",
+        "👥 Citizen Grievance Portal",
+        "📊 Operational Analytics",
+        "📄 Mini Project Report (.docx)"
     ]
 )
 
@@ -235,24 +235,24 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("#### **Active Fleet Telemetry**")
 st.sidebar.markdown("**Vehicle:** AP39-TM-1001 (4T Compactor)")
 st.sidebar.markdown("**Driver:** Ramesh Kumar")
-st.sidebar.markdown("**GPS Lock:** ?4m Accuracy (A-GPS)")
+st.sidebar.markdown("**GPS Lock:** ±4m Accuracy (A-GPS)")
 st.sidebar.markdown("**Fuel Level:** 78% | **Battery:** 88%")
 
 # Simulation Step Button in Sidebar
-if st.sidebar.button("? Step Truck to Next Waypoint"):
+if st.sidebar.button("⏩ Step Truck to Next Waypoint"):
     st.session_state.truck_index = (st.session_state.truck_index + 1) % len(route_coords)
     st.toast("Truck advanced to next coordinate!")
     st.rerun()
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Developed by **Saikiran Bora (A24126510006)**")
-st.sidebar.caption("Dept. of CSE, ANITS (Autonomous) | 2026?2027")
+st.sidebar.caption("Dept. of CSE, ANITS (Autonomous) | 2026-2027")
 
 # ========================================================
 # MODULE 1: SUPERVISOR COMMAND HUB
 # ========================================================
-if menu == "?? Supervisor Command Hub":
-    st.markdown('<div class="main-title">?? Supervisor GIS Fleet Command Hub</div>', unsafe_allow_html=True)
+if menu == "🏢 Supervisor Command Hub":
+    st.markdown('<div class="main-title">🏢 Supervisor GIS Fleet Command Hub</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-title">Real-Time Vehicle Tracking, Route Verification, and Proof-of-Service Audit</div>', unsafe_allow_html=True)
 
     # Metrics
@@ -277,7 +277,7 @@ if menu == "?? Supervisor Command Hub":
     map_col, tele_col = st.columns([7, 5])
 
     with map_col:
-        st.subheader("??? Live GIS Fleet Tracking Map")
+        st.subheader("🗺️ Live GIS Fleet Tracking Map")
         st.caption("Visakhapatnam - Bheemili Municipal Sector (OpenStreetMap Layer)")
 
         current_truck_pos = route_coords[st.session_state.truck_index]
@@ -343,17 +343,17 @@ if menu == "?? Supervisor Command Hub":
         st_folium(m, width="100%", height=450)
 
     with tele_col:
-        st.subheader("?? Live Telemetry & Verification Feed")
+        st.subheader("📡 Live Telemetry & Verification Feed")
         st.markdown(f"""
         <div class="card-box">
             <b>Vehicle Registration:</b> AP39-TM-1001 (4-Ton Compactor)<br>
             <b>Driver:</b> Ramesh Kumar (+91 98480 12345)<br>
             <b>Current Coordinates:</b> Lat {current_truck_pos[0]:.4f}, Lng {current_truck_pos[1]:.4f}<br>
-            <b>Speed:</b> 24 km/h | <b>Fuel:</b> 78% | <b>GPS Precision:</b> ?4m (High Lock)
+            <b>Speed:</b> 24 km/h | <b>Fuel:</b> 78% | <b>GPS Precision:</b> ±4m (High Lock)
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("#### **?? Real-Time Proof-of-Service Stream**")
+        st.markdown("#### **📸 Real-Time Proof-of-Service Stream**")
         verified_stops = [s for s in st.session_state.stops if s["status"] == "Collected"]
         for vs in verified_stops:
             with st.container():
@@ -363,27 +363,27 @@ if menu == "?? Supervisor Command Hub":
                 with c_txt:
                     st.markdown(f"**{vs['name']}**")
                     st.caption(f"Cleared at {vs['completedTime']} | {vs['weightKg']} kg")
-                    st.markdown(f"<span class='badge-pill badge-success'>? {vs['verificationStatus']}</span>", unsafe_allow_html=True)
+                    st.markdown(f"<span class='badge-pill badge-success'>✅ {vs['verificationStatus']}</span>", unsafe_allow_html=True)
                 st.markdown("<hr style='margin:0.5rem 0;'>", unsafe_allow_html=True)
 
     st.markdown("---")
-    st.subheader("??? Proof-of-Service Tamper-Resistant Audit Trail")
+    st.subheader("🛡️ Proof-of-Service Tamper-Resistant Audit Trail")
     df_audit = pd.DataFrame(st.session_state.audit_logs)
     st.dataframe(df_audit, use_container_width=True)
 
 # ========================================================
 # MODULE 2: DRIVER FIELD PORTAL
 # ========================================================
-elif menu == "?? Driver Field Portal":
-    st.markdown('<div class="main-title">?? Driver Mobile Field Portal</div>', unsafe_allow_html=True)
+elif menu == "🚛 Driver Field Portal":
+    st.markdown('<div class="main-title">🚛 Driver Mobile Field Portal</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-title">Route Manifest, Automated Geofencing, and Camera Proof-of-Service</div>', unsafe_allow_html=True)
 
     # Driver profile card
     dcol1, dcol2 = st.columns([2, 1])
     with dcol1:
-        st.info("?? **Driver:** Ramesh Kumar | **Assigned Vehicle:** AP39-TM-1001 (Compactor) | **Route:** North-01 (Sangivalasa - Bheemili)")
+        st.info("👤 **Driver:** Ramesh Kumar | **Assigned Vehicle:** AP39-TM-1001 (Compactor) | **Route:** North-01 (Sangivalasa - Bheemili)")
     with dcol2:
-        st.success("?? **GPS Active & Geofenced** (Accuracy: ?4m)")
+        st.success("🟢 **GPS Active & Geofenced** (Accuracy: ±4m)")
 
     # Route progress bar
     total_s = len(st.session_state.stops)
@@ -393,16 +393,16 @@ elif menu == "?? Driver Field Portal":
 
     st.markdown("### **Assigned Checkpoint Manifest**")
     for s in st.session_state.stops:
-        with st.expander(f"Stop #{s['sequence']}: {s['name']} ? [{s['status'].upper()}]", expanded=(s['status'] == "Pending")):
+        with st.expander(f"Stop #{s['sequence']}: {s['name']} - [{s['status'].upper()}]", expanded=(s['status'] == "Pending")):
             sc1, sc2 = st.columns([3, 2])
             with sc1:
                 st.markdown(f"**Ward / Sector:** {s['zone']}")
                 st.markdown(f"**Target Arrival Time:** {s['targetTime']}")
                 st.markdown(f"**GPS Coordinates:** Lat {s['lat']}, Lng {s['lng']}")
                 if s["status"] == "Collected":
-                    st.success(f"? Collected at {s['completedTime']} | Proof: {s.get('verificationStatus')}")
+                    st.success(f"✅ Collected at {s['completedTime']} | Proof: {s.get('verificationStatus')}")
                 elif s["status"] == "Skipped":
-                    st.error(f"?? Skipped: {s.get('skippedReason')}")
+                    st.error(f"⚠️ Skipped: {s.get('skippedReason')}")
 
             with sc2:
                 if s["status"] == "Pending":
@@ -410,7 +410,7 @@ elif menu == "?? Driver Field Portal":
                     with st.form(f"collect_form_{s['id']}"):
                         weight_input = st.number_input("Estimated Waste (kg)", min_value=100, max_value=1000, value=350, step=25)
                         photo_sim = st.file_uploader("Take / Upload Photo Proof", type=["jpg", "png", "jpeg"])
-                        submit_collect = st.form_submit_button("?? Mark as Collected (GPS Verified)")
+                        submit_collect = st.form_submit_button("📸 Mark as Collected (GPS Verified)")
 
                         if submit_collect:
                             s["status"] = "Collected"
@@ -442,7 +442,7 @@ elif menu == "?? Driver Field Portal":
                             ]
                         )
                         skip_remarks = st.text_input("Observations / Remarks", placeholder="e.g. Pipeline trenching ongoing.")
-                        submit_skip = st.form_submit_button("?? Report Obstruction & Skip Stop")
+                        submit_skip = st.form_submit_button("⚠️ Report Obstruction & Skip Stop")
 
                         if submit_skip:
                             s["status"] = "Skipped"
@@ -463,14 +463,14 @@ elif menu == "?? Driver Field Portal":
 # ========================================================
 # MODULE 3: CITIZEN GRIEVANCE PORTAL
 # ========================================================
-elif menu == "?? Citizen Grievance Portal":
-    st.markdown('<div class="main-title">?? Visakhapatnam Clean City Grievance Portal</div>', unsafe_allow_html=True)
+elif menu == "👥 Citizen Grievance Portal":
+    st.markdown('<div class="main-title">👥 Visakhapatnam Clean City Grievance Portal</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-title">Crowdsourced Waste Reporting, GPS Pin-Drop, and Real-Time Grievance Tracking</div>', unsafe_allow_html=True)
 
     c_form_col, c_track_col = st.columns([6, 5])
 
     with c_form_col:
-        st.subheader("?? Report Waste Overflow or Missed Pickup")
+        st.subheader("📢 Report Waste Overflow or Missed Pickup")
         with st.form("citizen_report_form", clear_on_submit=True):
             name = st.text_input("Your Full Name *", placeholder="e.g. Saikiran Bora")
             phone = st.text_input("Mobile Number *", placeholder="+91 98480 XXXXX")
@@ -492,11 +492,11 @@ elif menu == "?? Citizen Grievance Portal":
                 ])
 
             location = st.text_input("Landmark / Street Address *", placeholder="e.g. Near Bus Shelter, Sangivalasa Cross")
-            use_gps = st.checkbox("?? Use My Device GPS Coordinates (Auto Lat/Lng)", value=True)
+            use_gps = st.checkbox("📍 Use My Device GPS Coordinates (Auto Lat/Lng)", value=True)
             desc = st.text_area("Issue Description", placeholder="e.g. Waste spilling over road, foul smell.")
             photo = st.file_uploader("Upload Waste Photo", type=["jpg", "png", "jpeg"])
 
-            submit_complaint = st.form_submit_button("?? Submit Waste Grievance")
+            submit_complaint = st.form_submit_button("📤 Submit Waste Grievance")
 
             if submit_complaint:
                 if not name or not phone or not location:
@@ -518,10 +518,10 @@ elif menu == "?? Citizen Grievance Portal":
                         "reportedAt": "Just now"
                     }
                     st.session_state.complaints.insert(0, new_ticket)
-                    st.success(f"?? Grievance registered successfully! Your Tracking Ticket ID is **{new_id}**")
+                    st.success(f"🎉 Grievance registered successfully! Your Tracking Ticket ID is **{new_id}**")
 
     with c_track_col:
-        st.subheader("?? Track Your Grievance Status")
+        st.subheader("🔍 Track Your Grievance Status")
         search_id = st.text_input("Enter Ticket ID", value="CMP-2026-104", placeholder="e.g. CMP-2026-104")
         if search_id:
             match = next((c for c in st.session_state.complaints if c["id"].lower() == search_id.strip().lower()), None)
@@ -539,14 +539,14 @@ elif menu == "?? Citizen Grievance Portal":
                 </div>
                 """, unsafe_allow_html=True)
                 st.markdown("#### **Clearance Progression:**")
-                st.markdown("? **Stage 1:** Grievance Registered & Validated")
-                st.markdown("?? **Stage 2:** Collection Truck Dispatched En Route")
-                st.markdown("? **Stage 3:** Clearance & Proof Photo Verification Pending")
+                st.markdown("✅ **Stage 1:** Grievance Registered & Validated")
+                st.markdown("🚛 **Stage 2:** Collection Truck Dispatched En Route")
+                st.markdown("⏳ **Stage 3:** Clearance & Proof Photo Verification Pending")
             else:
                 st.warning(f"No ticket found matching '{search_id}'")
 
         st.markdown("---")
-        st.markdown("#### **?? Daily Ward Pickup Timings & Vehicle Roster**")
+        st.markdown("#### **📅 Daily Ward Pickup Timings & Vehicle Roster**")
         roster_data = [
             {"Ward": "Ward 1: Sangivalasa", "Timing": "06:30 AM - 08:00 AM", "Vehicle": "AP39-TM-1001", "Status": "Completed"},
             {"Ward": "Ward 2: Bheemili Coastal", "Timing": "08:00 AM - 09:30 AM", "Vehicle": "AP39-TM-1001", "Status": "In Progress"},
@@ -558,8 +558,8 @@ elif menu == "?? Citizen Grievance Portal":
 # ========================================================
 # MODULE 4: OPERATIONAL ANALYTICS
 # ========================================================
-elif menu == "?? Operational Analytics":
-    st.markdown('<div class="main-title">?? Operational Analytics & Performance Hub</div>', unsafe_allow_html=True)
+elif menu == "📊 Operational Analytics":
+    st.markdown('<div class="main-title">📊 Operational Analytics & Performance Hub</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-title">Executive Ward Clearance, Fleet Productivity, and Resource Analytics</div>', unsafe_allow_html=True)
 
     an1, an2 = st.columns(2)
@@ -594,8 +594,8 @@ elif menu == "?? Operational Analytics":
 # ========================================================
 # MODULE 5: MINI PROJECT REPORT
 # ========================================================
-elif menu == "?? Mini Project Report (.docx)":
-    st.markdown('<div class="main-title">?? Mini Project Report & Documentation</div>', unsafe_allow_html=True)
+elif menu == "📄 Mini Project Report (.docx)":
+    st.markdown('<div class="main-title">📄 Mini Project Report & Documentation</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-title">23CS4219 - Software Engineering Laboratory | ANITS Dept. of CSE</div>', unsafe_allow_html=True)
 
     report_path = "Municipal_Waste_Fleet_Tracking_Mini_Project_Report.docx"
@@ -603,9 +603,9 @@ elif menu == "?? Mini Project Report (.docx)":
         with open(report_path, "rb") as f:
             docx_data = f.read()
 
-        st.success("? **Official Academic Project Report is Ready for Download and Spiral Binding!**")
+        st.success("✅ **Official Academic Project Report is Ready for Download and Spiral Binding!**")
         st.download_button(
-            label="?? Download Complete Word Report (.docx)",
+            label="📥 Download Complete Word Report (.docx)",
             data=docx_data,
             file_name="Municipal_Waste_Fleet_Tracking_Mini_Project_Report.docx",
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"

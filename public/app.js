@@ -426,7 +426,7 @@ function resetSimulation() {
   if (routeWaypoints.length > 0 && vehicleMarker) {
     vehicleMarker.setLatLng(routeWaypoints[0]);
   }
-  showToast('Simulation reset to depot??.');
+  showToast('Simulation reset to depot.');
 }
 
 // Citizen Complaint Functions
