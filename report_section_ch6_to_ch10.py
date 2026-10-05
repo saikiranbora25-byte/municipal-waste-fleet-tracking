@@ -117,7 +117,7 @@ def build_chapters_6_to_10(doc, helpers):
         "This module serves as the primary operational console for municipal sanitation superintendents and route inspectors. Key capabilities include:"
     )
     add_bullet("Interactive Leaflet GIS Canvas", "Renders OpenStreetMap vector tiles covering the municipal ward sector (e.g., Sangivalasa to Bheemili). Route polylines are dynamically drawn, and collection checkpoints are displayed with distinct visual markers (green for collected, amber for pending, red for skipped, and purple for citizen complaints).")
-    add_bullet("Real-Time Vehicle Telemetry", "Monitors active collection vehicles, displaying live speed (km/h), fuel level, battery health, current assigned driver, and GPS lock precision (?4m).")
+    add_bullet("Real-Time Vehicle Telemetry", "Monitors active collection vehicles, displaying live speed (km/h), fuel level, battery health, current assigned driver, and GPS lock precision (+/- 4m).")
     add_bullet("Simulation & Playback Controller", "Includes playback controls (Play, Pause, Step Next, Reset) allowing supervisors to simulate GPS coordinate feeds during driver training or system verification.")
 
     add_heading_2("8.2 Driver Mobile Field Manifest & Geofencing Module")

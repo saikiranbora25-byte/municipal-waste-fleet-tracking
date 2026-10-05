@@ -19,8 +19,8 @@ def build_chapters_1_to_5(doc, helpers):
     
     add_heading_2("1.1 Background")
     add_paragraph(
-        "Rapid urbanization, industrial expansion, and population growth across metropolitan and tier-2 Indian cities?such "
-        "as Greater Visakhapatnam?have generated unprecedented quantities of municipal solid waste (MSW). Managing the daily "
+        "Rapid urbanization, industrial expansion, and population growth across metropolitan and tier-2 Indian cities - such "
+        "as Greater Visakhapatnam - have generated unprecedented quantities of municipal solid waste (MSW). Managing the daily "
         "collection, transportation, and safe disposal of solid waste represents one of the most resource-intensive and logistically "
         "challenging operations undertaken by municipal corporations. In a typical urban sector, hundreds of metric tons of domestic, "
         "commercial, and institutional waste must be cleared daily across dense residential wards, market yards, commercial districts, "
@@ -46,7 +46,7 @@ def build_chapters_1_to_5(doc, helpers):
     add_bullet("Absence of Route Verifiability", "Truck drivers follow informal or paper-based route manifests. Supervisors have no verifiable digital proof (such as GPS trail logs or geotagged timestamps) to ascertain whether a driver actually visited a scheduled checkpoint or skipped it.")
     add_bullet("Reactive Complaint Handling", "Municipal authorities operate reactively, discovering missed pickups only after days of resident agitation via informal phone calls that lack tracking numbers or escalation workflows.")
     add_bullet("Inefficient Fleet Resource Allocation", "Static routes cause collection vehicles to travel fixed kilometers regardless of actual waste volume, leading to excessive fuel expenditure, vehicle wear-and-tear, and avoidable carbon emissions.")
-    add_bullet("Lack of Structured Exception Logging", "When drivers encounter valid physical obstructions?such as road excavations, water-logging, or inaccessible narrow lanes?there is no mobile tool to record the justification, leaving supervisors unable to distinguish between genuine operational impediments and driver negligence.")
+    add_bullet("Lack of Structured Exception Logging", "When drivers encounter valid physical obstructions - such as road excavations, water-logging, or inaccessible narrow lanes - there is no mobile tool to record the justification, leaving supervisors unable to distinguish between genuine operational impediments and driver negligence.")
 
     add_heading_2("1.3 Motivation")
     add_paragraph(
@@ -88,7 +88,7 @@ def build_chapters_1_to_5(doc, helpers):
         "In the conventional municipal sanitation framework currently operational across most municipal wards, daily waste collection "
         "is managed through legacy manual methods. Every morning, drivers and ground sanitation crew assemble at the central zonal depot "
         "where supervisors verbally issue route instructions or hand over paper log sheets indicating the designated ward sector (e.g., "
-        "Ward 1 Sangivalasa, Ward 2 Bheemili Coastal). The collection truck?typically a 2.5-ton tipper or 4-ton hydraulic compactor?departs "
+        "Ward 1 Sangivalasa, Ward 2 Bheemili Coastal). The collection truck - typically a 2.5-ton tipper or 4-ton hydraulic compactor - departs "
         "the depot and follows historically established roadways."
     )
     add_paragraph(
@@ -107,7 +107,7 @@ def build_chapters_1_to_5(doc, helpers):
     add_bullet("Total Lack of Real-Time Operational Visibility", "Supervisors stationed at municipal headquarters remain completely blind to vehicle whereabouts during the 8-hour shift. If a driver deviates from the planned route, idles excessively, or finishes early, no automated alert is generated.")
     add_bullet("Pervasive Unverified Service Claims", "Paper log sheets are inherently vulnerable to post-shift fabrication and falsification. Drivers can mark bins as 'cleared' even if they were bypassed, leading to uncollected garbage festering for days without management awareness.")
     add_bullet("Delayed Citizen Grievance Resolution Loop", "Residents experiencing overflowing bins must physically visit municipal ward offices or dial general helpline numbers. Complaints are recorded in physical registers, rarely correlated with active truck locations, and take days to reach field crew.")
-    add_bullet("Inability to Identify Recurring Road Obstructions", "Because skipped stops are not digitally logged with categorized justifications, municipal engineers cannot identify recurring infrastructure issues?such as chronic illegal parking or prolonged pipeline trenching?that prevent waste clearance.")
+    add_bullet("Inability to Identify Recurring Road Obstructions", "Because skipped stops are not digitally logged with categorized justifications, municipal engineers cannot identify recurring infrastructure issues - such as chronic illegal parking or prolonged pipeline trenching - that prevent waste clearance.")
     add_bullet("Absence of Empirical Data for Route Planning", "Without digital historical archives of pickup timestamps, route durations, and clearance volumes, urban planners cannot optimize collection schedules or balance vehicular workloads scientifically.")
 
     doc.add_page_break()

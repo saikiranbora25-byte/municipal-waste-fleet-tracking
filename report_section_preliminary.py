@@ -10,7 +10,7 @@ def build_preliminary_pages(doc, helpers):
     add_paragraph = helpers['add_paragraph']
     
     # ==========================================
-    # 1. TITLE / COVER PAGE
+    # 1. TITLE / COVER PAGE (Exact Template Order & Font Sizes)
     # ==========================================
     p_title = doc.add_paragraph()
     p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -18,16 +18,16 @@ def build_preliminary_pages(doc, helpers):
     p_title.paragraph_format.space_after = Pt(12)
     run_t = p_title.add_run("GPS-BASED FLEET TRACKING AND ROUTE VERIFICATION SYSTEM FOR MUNICIPAL SOLID WASTE MANAGEMENT")
     run_t.font.name = 'Times New Roman'
-    run_t.font.size = Pt(16)
+    run_t.font.size = Pt(14)               # Strict 14 pt Bold matching template
     run_t.bold = True
     run_t.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
     
     p_sub = doc.add_paragraph()
     p_sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_sub.paragraph_format.space_after = Pt(8)
-    r_sub = p_sub.add_run("A Mini Project Report submitted as part of the academic requirements for the\n23CS4219 - Software Engineering Laboratory\n\nBACHELOR OF TECHNOLOGY\nIN\nCOMPUTER SCIENCE AND ENGINEERING")
+    r_sub = p_sub.add_run("A Mini Project Report submitted as part of the academic requirements for the\n23CS4219- Software Engineering Laboratory\n\nBACHELOR OF TECHNOLOGY\nIN\nCOMPUTER SCIENCE AND ENGINEERING")
     r_sub.font.name = 'Times New Roman'
-    r_sub.font.size = Pt(12)
+    r_sub.font.size = Pt(12)               # Strict 12 pt matching template
     r_sub.bold = True
     
     # College Logo
@@ -37,7 +37,7 @@ def build_preliminary_pages(doc, helpers):
         p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p_logo.paragraph_format.space_before = Pt(8)
         p_logo.paragraph_format.space_after = Pt(8)
-        p_logo.add_run().add_picture(logo_path, width=Inches(1.8))
+        p_logo.add_run().add_picture(logo_path, width=Inches(1.5))
         
     p_subm = doc.add_paragraph()
     p_subm.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -46,16 +46,16 @@ def build_preliminary_pages(doc, helpers):
     r_s1.font.name = 'Times New Roman'
     r_s1.font.size = Pt(12)
     r_s1.italic = True
-    r_s2 = p_subm.add_run("SAIKIRAN BORA (A24126510006)\nSection ? A, III Year B.Tech. CSE\n\n")
+    r_s2 = p_subm.add_run("SAIKIRAN BORA (A24126510006)\n\n")
     r_s2.font.name = 'Times New Roman'
-    r_s2.font.size = Pt(13)
+    r_s2.font.size = Pt(12)               # Strict 12 pt matching template
     r_s2.bold = True
     
     r_g1 = p_subm.add_run("Under the guidance of\n")
     r_g1.font.name = 'Times New Roman'
     r_g1.font.size = Pt(12)
     r_g1.italic = True
-    r_g2 = p_subm.add_run("Prof. A. Rohini\nDepartment of Computer Science and Engineering\n")
+    r_g2 = p_subm.add_run("Prof. A. Rohini,\nDepartment of Computer Science and Engineering\n")
     r_g2.font.name = 'Times New Roman'
     r_g2.font.size = Pt(12)
     r_g2.bold = True
@@ -64,22 +64,22 @@ def build_preliminary_pages(doc, helpers):
     p_dept.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_dept.paragraph_format.space_before = Pt(12)
     p_dept.paragraph_format.space_after = Pt(0)
-    r_dept = p_dept.add_run("DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\nANIL NEERUKONDA INSTITUTE OF TECHNOLOGY AND SCIENCES (UGC AUTONOMOUS)\n(Permanently Affiliated to AU, Approved by AICTE and Accredited by NBA & NAAC with ?A? Grade)\nSangivalasa, Bheemili Mandal, Visakhapatnam Dist. (A.P) - 531162\nACADEMIC YEAR 2026 ? 2027")
+    r_dept = p_dept.add_run("DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\nANIL NEERUKONDA INSTITUTE OF TECHNOLOGY AND SCIENCES (UGC AUTONOMOUS)\n(Permanently Affiliated to AU, Approved by AICTE and Accredited by NBA & NAAC with 'A' Grade)\nSangivalasa, bheemili mandal, visakhapatnam dist.(A.P) 2026 - 2027")
     r_dept.font.name = 'Times New Roman'
-    r_dept.font.size = Pt(10)
+    r_dept.font.size = Pt(12)              # Strict 12 pt matching template
     r_dept.bold = True
     
     doc.add_page_break()
     
     # ==========================================
-    # 2. CERTIFICATE PAGE
+    # 2. CERTIFICATE PAGE (Exact Template Text & Blank Left As-Is)
     # ==========================================
     p_c_head = doc.add_paragraph()
     p_c_head.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_c_head.paragraph_format.space_after = Pt(2)
-    r_ch = p_c_head.add_run("DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\nANIL NEERUKONDA INSTITUTE OF TECHNOLOGY AND SCIENCES\n(UGC AUTONOMOUS)\n(Affiliated to AU, Approved by AICTE and Accredited by NBA & NAAC with ?A? Grade)\nSangivalasa, Bheemili Mandal, Visakhapatnam Dist. (A.P)\n")
+    r_ch = p_c_head.add_run("DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\nANIL NEERUKONDA INSTITUTE OF TECHNOLOGY AND SCIENCES\n(UGC AUTONOMOUS)\n(Affiliated to AU, Approved by AICTE and Accredited by NBA & NAAC with 'A' Grade)\nSangivalasa, bheemili mandal, visakhapatnam dist.(A.P)\n")
     r_ch.font.name = 'Times New Roman'
-    r_ch.font.size = Pt(10)
+    r_ch.font.size = Pt(12)               # Strict 12 pt matching template
     r_ch.bold = True
     
     if os.path.exists(logo_path):
@@ -95,44 +95,60 @@ def build_preliminary_pages(doc, helpers):
     p_cert.paragraph_format.space_after = Pt(14)
     r_cert = p_cert.add_run("CERTIFICATE")
     r_cert.font.name = 'Times New Roman'
-    r_cert.font.size = Pt(15)
+    r_cert.font.size = Pt(14)
     r_cert.bold = True
     
+    # Exact template text with the blank left as-is:
     cert_text = (
-        "This is to certify that the mini project report entitled \"GPS-BASED FLEET TRACKING AND ROUTE "
-        "VERIFICATION SYSTEM FOR MUNICIPAL SOLID WASTE MANAGEMENT\" has been successfully completed by "
-        "SAIKIRAN BORA (Roll No: A24126510006), student of III Year, I Semester B.Tech., Section ? A, in the Department "
-        "of Computer Science and Engineering, Anil Neerukonda Institute of Technology and Sciences (Autonomous), "
-        "Visakhapatnam, during the academic year 2026?2027 as part of the academic requirements for the 23CS4219 - "
-        "Software Engineering Laboratory course."
+        "This is to certify that the mini project entitled \"________________________\" has been successfully "
+        "completed by the students of the Department of Computer Science and Engineering during the academic "
+        "year 2026-2027 as part of the requirements for the 23CS4219-Software Engineering Laboratory."
     )
     p_c_body = doc.add_paragraph()
     p_c_body.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p_c_body.paragraph_format.line_spacing = 1.3
-    p_c_body.paragraph_format.space_after = Pt(36)
+    p_c_body.paragraph_format.space_after = Pt(30)
     r_cb = p_c_body.add_run(cert_text)
     r_cb.font.name = 'Times New Roman'
     r_cb.font.size = Pt(12)
     
-    # Signature Table
-    sig_table = doc.add_table(rows=1, cols=2)
+    # Signature Table (Matching template layout)
+    sig_table = doc.add_table(rows=2, cols=2)
     sig_table.alignment = WD_TABLE_ALIGNMENT.CENTER
     sig_table.rows[0].cells[0].width = Inches(3.2)
     sig_table.rows[0].cells[1].width = Inches(3.2)
+    sig_table.rows[1].cells[0].width = Inches(3.2)
+    sig_table.rows[1].cells[1].width = Inches(3.2)
     
-    p_sig1 = sig_table.rows[0].cells[0].paragraphs[0]
+    p_sig_top1 = sig_table.rows[0].cells[0].paragraphs[0]
+    p_sig_top1.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p_sig_top1.paragraph_format.space_after = Pt(36)
+    r_st1 = p_sig_top1.add_run("Faculty  Incharge")
+    r_st1.font.name = 'Times New Roman'
+    r_st1.font.size = Pt(12)
+    r_st1.bold = True
+    
+    p_sig_top2 = sig_table.rows[0].cells[1].paragraphs[0]
+    p_sig_top2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p_sig_top2.paragraph_format.space_after = Pt(36)
+    r_st2 = p_sig_top2.add_run("Head of the Department")
+    r_st2.font.name = 'Times New Roman'
+    r_st2.font.size = Pt(12)
+    r_st2.bold = True
+    
+    p_sig1 = sig_table.rows[1].cells[0].paragraphs[0]
     p_sig1.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    r_s1 = p_sig1.add_run("Prof. A. Rohini\nFaculty Incharge / Guide\nDept. of CSE, ANITS")
+    r_s1 = p_sig1.add_run("Prof. A. Rohini")
     r_s1.font.name = 'Times New Roman'
-    r_s1.font.size = Pt(11)
-    r_s1.bold = True
+    r_s1.font.size = Pt(12)
+    r_s1.bold = False
     
-    p_sig2 = sig_table.rows[0].cells[1].paragraphs[0]
+    p_sig2 = sig_table.rows[1].cells[1].paragraphs[0]
     p_sig2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    r_s2 = p_sig2.add_run("Prof. G. Srinivas\nHead of the Department\nDept. of CSE, ANITS")
+    r_s2 = p_sig2.add_run("Prof. G. Srinivas")
     r_s2.font.name = 'Times New Roman'
-    r_s2.font.size = Pt(11)
-    r_s2.bold = True
+    r_s2.font.size = Pt(12)
+    r_s2.bold = False
     
     doc.add_page_break()
     
@@ -142,9 +158,9 @@ def build_preliminary_pages(doc, helpers):
     p_d_head = doc.add_paragraph()
     p_d_head.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_d_head.paragraph_format.space_after = Pt(2)
-    r_dh = p_d_head.add_run("DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\nANIL NEERUKONDA INSTITUTE OF TECHNOLOGY AND SCIENCES\n(UGC AUTONOMOUS)\nSangivalasa, Bheemili Mandal, Visakhapatnam Dist. (A.P)\n")
+    r_dh = p_d_head.add_run("DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\nANIL NEERUKONDA INSTITUTE OF TECHNOLOGY AND SCIENCES\n(UGC AUTONOMOUS)\n(Affiliated to AU, Approved by AICTE and Accredited by NBA & NAAC with 'A' Grade)\nSangivalasa, bheemili mandal, visakhapatnam dist.(A.P)\n")
     r_dh.font.name = 'Times New Roman'
-    r_dh.font.size = Pt(10)
+    r_dh.font.size = Pt(12)
     r_dh.bold = True
     
     p_decl = doc.add_paragraph()
@@ -153,36 +169,36 @@ def build_preliminary_pages(doc, helpers):
     p_decl.paragraph_format.space_after = Pt(18)
     r_decl = p_decl.add_run("DECLARATION")
     r_decl.font.name = 'Times New Roman'
-    r_decl.font.size = Pt(15)
+    r_decl.font.size = Pt(14)
     r_decl.bold = True
     
     decl_text = (
-        "I, SAIKIRAN BORA (Roll No: A24126510006), student of III Year, I Semester B.Tech., Section ? A, in the Department "
+        "I, SAIKIRAN BORA (Roll No: A24126510006), student of III Year, I Semester B.Tech., Section - A, in the Department "
         "of Computer Science and Engineering from Anil Neerukonda Institute of Technology and Sciences (Autonomous), "
         "Visakhapatnam, hereby declare that the mini project work entitled \"GPS-BASED FLEET TRACKING AND ROUTE "
         "VERIFICATION SYSTEM FOR MUNICIPAL SOLID WASTE MANAGEMENT\" is an authentic record of independent work carried "
         "out by me under the guidance of Prof. A. Rohini, Department of Computer Science and Engineering.\n\n"
         "I further declare that this mini project report is submitted as part of the academic requirements for the "
-        "23CS4219 - Software Engineering Laboratory during the academic year 2026?2027, and that the results embodied "
+        "23CS4219 - Software Engineering Laboratory during the academic year 2026-2027, and that the results embodied "
         "in this report have not been submitted to any other Institute or University for the award of any degree or diploma."
     )
     p_d_body = doc.add_paragraph()
     p_d_body.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p_d_body.paragraph_format.line_spacing = 1.3
-    p_d_body.paragraph_format.space_after = Pt(40)
+    p_d_body.paragraph_format.space_after = Pt(36)
     r_db = p_d_body.add_run(decl_text)
     r_db.font.name = 'Times New Roman'
     r_db.font.size = Pt(12)
     
     p_d_sig = doc.add_paragraph()
     p_d_sig.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    r_ds = p_d_sig.add_run("SAIKIRAN BORA\nRoll No: A24126510006\nB.Tech. III Year, I Sem, Section ? A\nDept. of CSE, ANITS")
+    r_ds = p_d_sig.add_run("SAIKIRAN BORA\nRoll No: A24126510006\nB.Tech. III Year, I Sem, Section - A\nDept. of CSE, ANITS")
     r_ds.font.name = 'Times New Roman'
-    r_ds.font.size = Pt(11)
+    r_ds.font.size = Pt(12)
     r_ds.bold = True
     
     doc.add_page_break()
-    
+    # ==========================================
     # ==========================================
     # 4. ABSTRACT (150-250 WORDS)
     # ==========================================

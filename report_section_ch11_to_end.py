@@ -25,7 +25,7 @@ def build_chapters_11_to_end(doc, helpers):
         "geospatial precision, data integrity, and system resilience under variable network conditions. The testing methodology adhered "
         "to standard Software Engineering quality assurance protocols, incorporating the following verification techniques:"
     )
-    add_bullet("Unit Testing", "Individual algorithmic modules?such as the Haversine spherical distance calculation function, ISO timestamp parser, and ticket ID generator?were tested in isolation with boundary value test fixtures.")
+    add_bullet("Unit Testing", "Individual algorithmic modules - such as the Haversine spherical distance calculation function, ISO timestamp parser, and ticket ID generator - were tested in isolation with boundary value test fixtures.")
     add_bullet("White-Box & Basis Path Testing", "Control logic within the geofencing verification routine and skip-reason validation flows was analyzed to derive Cyclomatic Complexity (V(G)), ensuring every independent execution path was exercised at least once.")
     add_bullet("Black-Box Testing", "Equivalence partitioning and boundary value analysis were applied to all client-facing forms and REST endpoints, verifying input sanitization for phone numbers, GPS coordinates, and file attachments.")
     add_bullet("System Integration Testing", "End-to-end integration between the driver mobile client, the Node.js API server, and the supervisor GIS map was validated under concurrent network simulations to ensure immediate synchronization.")
@@ -94,7 +94,7 @@ def build_chapters_11_to_end(doc, helpers):
         'report_assets/screenshot_driver.png',
         "Figure 12.4: Driver Mobile Field Manifest & Proof Upload Interface",
         "Short Explanation: Figure 12.4 displays the smartphone-optimized driver interface within a mobile frame. The view highlights "
-        "the active driver profile (Ramesh Kumar), green GPS lock banner (?4m accuracy), route completion progress bar (33%), and "
+        "the active driver profile (Ramesh Kumar), green GPS lock banner (+/- 4m accuracy), route completion progress bar (33%), and "
         "interactive checkpoint cards featuring one-tap 'Mark Collected' and 'Skip' action buttons."
     )
 
@@ -161,7 +161,7 @@ def build_chapters_11_to_end(doc, helpers):
     add_paragraph(
         "The development and deployment of the GPS-Based Fleet Tracking and Route Verification System (CivicClean GIS) successfully "
         "demonstrates the power of Software Engineering principles in resolving complex, real-world civic challenges. By selecting "
-        "and implementing Solution 2?a pure software-only architecture?this project achieved complete operational transparency, route "
+        "and implementing Solution 2 - a pure software-only architecture - this project achieved complete operational transparency, route "
         "verifiability, and administrative accountability in municipal solid waste collection without incurring any capital expense for "
         "custom in-bin hardware sensors."
     )
@@ -190,8 +190,8 @@ def build_chapters_11_to_end(doc, helpers):
     )
     add_bullet("Textbook [1]", "Roger S. Pressman and Bruce R. Maxim, \"Software Engineering: A Practitioner's Approach\", 9th Edition, McGraw-Hill Education, 2020.")
     add_bullet("Textbook [2]", "Ian Sommerville, \"Software Engineering\", 10th Edition, Pearson Education, 2016.")
-    add_bullet("IEEE Journal [3]", "M. A. Hannan, M. Arebey, R. A. Begum, and H. Basri, \"An Automated Waste Collection System using RFID and GPS Technology\", IEEE Transactions on Intelligent Transportation Systems, Vol. 13, No. 3, pp. 1329?1338, 2012.")
-    add_bullet("Journal Article [4]", "A. Zanella, N. Bui, A. Castellani, L. Vangelista, and M. Zorzi, \"Internet of Things for Smart Cities\", IEEE Internet of Things Journal, Vol. 1, No. 1, pp. 22?32, 2014.")
+    add_bullet("IEEE Journal [3]", "M. A. Hannan, M. Arebey, R. A. Begum, and H. Basri, \"An Automated Waste Collection System using RFID and GPS Technology\", IEEE Transactions on Intelligent Transportation Systems, Vol. 13, No. 3, pp. 1329-1338, 2012.")
+    add_bullet("Journal Article [4]", "A. Zanella, N. Bui, A. Castellani, L. Vangelista, and M. Zorzi, \"Internet of Things for Smart Cities\", IEEE Internet of Things Journal, Vol. 1, No. 1, pp. 22-32, 2014.")
     add_bullet("Standard [5]", "Object Management Group (OMG), \"Unified Modeling Language (OMG UML) Specification\", Version 2.5.1, formal/2017-12-05, 2017.")
     add_bullet("Web Specification [6]", "World Wide Web Consortium (W3C), \"Geolocation API Specification (2nd Edition)\", W3C Recommendation, 2016. [Online]. Available: https://www.w3.org/TR/geolocation-API/")
     add_bullet("GIS Documentation [7]", "Vladimir Agafonkin, \"Leaflet: An Open-Source JavaScript Library for Mobile-Friendly Interactive Maps\", Version 1.9.4, 2023. [Online]. Available: https://leafletjs.com/")
@@ -208,7 +208,7 @@ def build_chapters_11_to_end(doc, helpers):
         "This user manual provides step-by-step operating instructions for all three authorized user roles:"
     )
     add_bullet("A.1 Supervisor Operating Guide", "1. Open Google Chrome or Microsoft Edge and navigate to http://localhost:3000.\n2. Click on the 'Supervisor Dashboard' tab.\n3. Review the top KPI cards for today's collection progress.\n4. Use the interactive GIS map to monitor vehicle TRK-01 movement.\n5. Click 'Start GPS Sim' to simulate active vehicle transit.\n6. Inspect the side 'Proof-of-Service Stream' to review driver-submitted photos and GPS accuracy.\n7. Review the bottom 'Proof-of-Service Audit Trail' table for official records.")
-    add_bullet("A.2 Driver Field App Guide", "1. Launch the mobile web application on the smartphone mounted in the compactor cab.\n2. Tap the 'Driver Field App' tab.\n3. Verify the green banner shows 'GPS Active & Geofencing Enabled (?4m Accuracy)'.\n4. Review the chronological checklist of assigned checkpoints.\n5. Upon reaching a bin location, tap 'Mark Collected', capture the photo proof, and confirm.\n6. If a roadway is blocked, tap 'Skip', select the appropriate obstruction reason, input remarks, and confirm.")
+    add_bullet("A.2 Driver Field App Guide", "1. Launch the mobile web application on the smartphone mounted in the compactor cab.\n2. Tap the 'Driver Field App' tab.\n3. Verify the green banner shows 'GPS Active & Geofencing Enabled (+/- 4m Accuracy)'.\n4. Review the chronological checklist of assigned checkpoints.\n5. Upon reaching a bin location, tap 'Mark Collected', capture the photo proof, and confirm.\n6. If a roadway is blocked, tap 'Skip', select the appropriate obstruction reason, input remarks, and confirm.")
     add_bullet("A.3 Citizen Grievance Portal Guide", "1. Navigate to http://localhost:3000 and select the 'Citizen Portal' tab.\n2. Fill out your Full Name, Mobile Number, and select your Municipal Ward.\n3. Choose the Issue Category (e.g., Overflowing Public Bin or Missed Pickup).\n4. Tap 'GPS Pin' to automatically capture your smartphone's latitude/longitude coordinates.\n5. Attach a photo of the waste overflow and click 'Submit Waste Report'.\n6. Record the generated Ticket ID (e.g., CMP-2026-104) and enter it in the 'Track Your Grievance Status' search box to monitor clearance progress.")
 
     add_heading_2("Appendix B: REST API Payloads & Data Schemas")
