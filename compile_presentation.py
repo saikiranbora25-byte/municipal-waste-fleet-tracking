@@ -13,7 +13,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 
-print("Initializing Presentation Compilation...")
+print("Initializing Presentation Compilation with 12pt Typography...")
 
 prs = pptx.Presentation()
 prs.slide_width = Inches(13.333)
@@ -43,7 +43,7 @@ def apply_background(slide, color=C_LIGHT_BG):
 
 def add_header(slide, title_text, category="MUNICIPAL SOLID WASTE MANAGEMENT | SOLUTION 2", slide_num=None):
     # Category Pill
-    cat_box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(0.4), Inches(4.5), Inches(0.32))
+    cat_box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(0.38), Inches(4.8), Inches(0.34))
     cat_box.fill.solid()
     cat_box.fill.fore_color.rgb = RGBColor(239, 246, 255)
     cat_box.line.color.rgb = RGBColor(191, 219, 254)
@@ -53,23 +53,23 @@ def add_header(slide, title_text, category="MUNICIPAL SOLID WASTE MANAGEMENT | S
     p_c = tf_c.paragraphs[0]
     p_c.text = category.upper()
     p_c.font.name = "Segoe UI"
-    p_c.font.size = Pt(8.5)
+    p_c.font.size = Pt(9.5)
     p_c.font.bold = True
     p_c.font.color.rgb = C_PRIMARY
     
     # Title Text
-    t_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.72), Inches(11.7), Inches(0.65))
+    t_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.72), Inches(11.7), Inches(0.68))
     tf_t = t_box.text_frame
     tf_t.word_wrap = True
     p_t = tf_t.paragraphs[0]
     p_t.text = title_text
     p_t.font.name = "Segoe UI"
-    p_t.font.size = Pt(21)
+    p_t.font.size = Pt(22)
     p_t.font.bold = True
     p_t.font.color.rgb = C_TEXT_MAIN
 
     # Divider
-    div = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(1.42), Inches(11.733), Inches(0.02))
+    div = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(1.44), Inches(11.733), Inches(0.02))
     div.fill.solid()
     div.fill.fore_color.rgb = C_BORDER
     div.line.fill.background()
@@ -79,11 +79,11 @@ def add_header(slide, title_text, category="MUNICIPAL SOLID WASTE MANAGEMENT | S
     tf_f = f_box.text_frame
     p_f = tf_f.paragraphs[0]
     p_f.font.name = "Segoe UI"
-    p_f.font.size = Pt(8)
+    p_f.font.size = Pt(9)
     p_f.font.color.rgb = C_TEXT_MUTED
-    p_f.text = "Saikiran Bora (Roll No: A24126510006) | Branch: CSE, ANITS  \u2022  CivicClean GIS: GPS Fleet Tracking & Route Verification Platform"
+    p_f.text = "Saikiran Bora (Roll No: A24126510006) | Branch: CSE, ANITS  •  CivicClean GIS: GPS Fleet Tracking & Route Verification Platform"
     if slide_num:
-        p_f.text += f"  \u2022  Slide {slide_num} of 16"
+        p_f.text += f"  •  Slide {slide_num} of 16"
 
 def add_card(slide, left, top, width, height, title="", border_color=C_BORDER, fill_color=C_CARD_FILL, title_color=C_PRIMARY_DK):
     card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
@@ -103,10 +103,10 @@ def add_card(slide, left, top, width, height, title="", border_color=C_BORDER, f
         p = tf.paragraphs[0]
         p.text = title
         p.font.name = "Segoe UI"
-        p.font.size = Pt(12)
+        p.font.size = Pt(13)
         p.font.bold = True
         p.font.color.rgb = title_color
-        p.space_after = Pt(4)
+        p.space_after = Pt(6)
     return card, tf
 
 helpers = {
@@ -135,21 +135,19 @@ import ppt_part2 as pptt_part2
 import ppt_part3 as pptt_part3
 import ppt_part4 as pptt_part4
 
-print("Building Slides 1 to 4...")
+print("Compiling Slides 1 to 4...")
 pptt_part1.build_slides_1_to_4(prs, helpers)
 
-print("Building Slides 5 to 8...")
+print("Compiling Slides 5 to 8...")
 pptt_part2.build_slides_5_to_8(prs, helpers)
 
-print("Building Slides 9 to 12...")
+print("Compiling Slides 9 to 12...")
 pptt_part3.build_slides_9_to_12(prs, helpers)
 
-print("Building Slides 13 to 16...")
+print("Compiling Slides 13 to 16...")
 pptt_part4.build_slides_13_to_16(prs, helpers)
 
 output_ppt = "CivicClean_Municipal_Waste_Fleet_Tracking_Presentation.pptx"
 prs.save(output_ppt)
-
-file_size = os.path.getsize(output_ppt)
-print(f"SUCCESS: Presentation saved as '{output_ppt}' ({file_size} bytes, {file_size/1024:.1f} KB)")
-print(f"Total Slides Generated: {len(prs.slides)}")
+print(f"Presentation successfully compiled and saved to: {output_ppt}")
+print(f"Total slides compiled: {len(prs.slides)}")
